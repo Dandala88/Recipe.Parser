@@ -1,5 +1,6 @@
 using Recipe.Parser.Interfaces;
 using Recipe.Parser.Services;
+using Core.JwtBuilder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddJwtBuilderAuthentication(builder.Configuration);
 
 builder.Services.AddScoped<IIngredientsService, IngredientsService>();
 
@@ -22,6 +24,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

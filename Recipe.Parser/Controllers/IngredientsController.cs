@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Recipe.Parser.Interfaces;
+using Recipe.Parser.Models;
 
 namespace Recipe.Parser.Controllers
 {
@@ -17,11 +19,13 @@ namespace Recipe.Parser.Controllers
         }
 
         [HttpPost]
-        public IActionResult Ingredients([FromBody] List<string> documents)
+        [Authorize]
+        public IActionResult Ingredients([FromBody] List<WebSnippet> snippets)
         {
             try
             {
-                var ingredients = _ingredientsService.ParseIngredients(documents);
+                var urls = snippets.Select(s => s.Link).ToList();
+                var ingredients = _ingredientsService.ParseIngredients(urls);
                 return Ok(ingredients);
             }
             catch(Exception ex)
