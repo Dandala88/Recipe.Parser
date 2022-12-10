@@ -8,7 +8,9 @@
 
   <ItemGroup>
     <PackageReference Include="Core.JwtBuilder" Version="1.1.0" />
+    <PackageReference Include="Google.Cloud.Language.V1" Version="3.1.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
+    <PackageReference Include="OpenNLP.NET" Version="1.9.4.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 

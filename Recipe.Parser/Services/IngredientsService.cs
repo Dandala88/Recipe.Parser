@@ -43,5 +43,58 @@ namespace Recipe.Parser.Services
 
             return recipes;
         }
+
+        public List<Models.Recipe> ParseIngredientsNLP(List<string> urls)
+        {
+            var recipes = new List<Models.Recipe>();
+            foreach (var url in urls)
+            {
+                var web = new HtmlWeb();
+                var doc = web.Load(url);
+
+                var docInnerHtmls = doc.DocumentNode.DescendantNodes().Select(s => s.InnerText);
+                var docText = string.Join(string.Empty, docInnerHtmls);
+
+                var recipe = new Models.Recipe();
+                recipe.Ingredients = new List<string>();
+
+                //Tokenizer
+                //using var modelIn = new java.io.FileInputStream(GetModel("en-token.bin"));
+
+                //var model = new opennlp.tools.tokenize.TokenizerModel(modelIn);
+                //var tokenizer = new opennlp.tools.tokenize.TokenizerME(model);
+
+                //var tokens = tokenizer.tokenize(doc.DocumentNode.InnerHtml);
+
+                //foreach (var token in tokens)
+                //    recipe.Ingredients.Add(token);
+
+
+                //Sentences
+                using var modelIn = new java.io.FileInputStream(GetModel("en-sent.bin"));
+
+                var model = new opennlp.tools.sentdetect.SentenceModel(modelIn);
+                var sentenceDetector = new opennlp.tools.sentdetect.SentenceDetectorME(model);
+
+                var sentences = sentenceDetector.sentDetect(docText);
+
+                foreach (var sentence in sentences)
+                    recipe.Ingredients.Add(sentence);
+
+                recipes.Add(recipe);
+            }
+
+            return recipes;
+        }
+
+        private const string DownloadsFolders = @"../nlp-models";
+        private string GetModel(string fileName)
+        {
+            var asmFolder = Path.GetDirectoryName(GetType().Assembly.Location);
+            var filePath = Path.GetFullPath(Path.Combine(asmFolder, DownloadsFolders, fileName));
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException(filePath);
+            return filePath;
+        }
     }
 }

@@ -33,5 +33,22 @@ namespace Recipe.Parser.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Authorize]
+        [Route("NLP")]
+        public IActionResult IngredientsNLP([FromBody] List<WebSnippet> snippets)
+        {
+            try
+            {
+                var urls = snippets.Select(s => s.Link).ToList();
+                var ingredients = _ingredientsService.ParseIngredientsNLP(urls);
+                return Ok(ingredients);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
