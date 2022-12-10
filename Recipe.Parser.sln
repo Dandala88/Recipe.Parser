@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32516.85
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe.Parser", "Recipe.Parser\Recipe.Parser.csproj", "{9F48CE5D-B8D4-472F-B5BE-D3E4A93EADAC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F48CE5D-B8D4-472F-B5BE-D3E4A93EADAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F48CE5D-B8D4-472F-B5BE-D3E4A93EADAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F48CE5D-B8D4-472F-B5BE-D3E4A93EADAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F48CE5D-B8D4-472F-B5BE-D3E4A93EADAC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FAC9657C-8B8F-4B9B-98A2-BAE07DF1BD02}
+	EndGlobalSection
+EndGlobal
