@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Recipe.Parser.Interfaces;
 
 namespace Recipe.Parser.Controllers
 {
@@ -7,16 +8,26 @@ namespace Recipe.Parser.Controllers
     public class IngredientsController : ControllerBase
     {
         private readonly ILogger<IngredientsController> _logger;
+        private readonly IIngredientsService _ingredientsService;
 
-        public IngredientsController(ILogger<IngredientsController> logger)
+        public IngredientsController(ILogger<IngredientsController> logger, IIngredientsService ingredientsService)
         {
             _logger = logger;
+            _ingredientsService = ingredientsService;
         }
 
-        [HttpGet]
-        public IActionResult Get()
+        [HttpPost]
+        public IActionResult Ingredients([FromBody] List<string> documents)
         {
-            return Ok();
+            try
+            {
+                var ingredients = _ingredientsService.ParseIngredients(documents);
+                return Ok(ingredients);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
