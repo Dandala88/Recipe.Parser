@@ -2,6 +2,7 @@
 using Recipe.Parser.Interfaces;
 using Recipe.Parser.Models;
 using System.Text.RegularExpressions;
+using System.Web;
 
 namespace Recipe.Parser.Services
 {
@@ -95,6 +96,47 @@ namespace Recipe.Parser.Services
             if (!File.Exists(filePath))
                 throw new FileNotFoundException(filePath);
             return filePath;
+        }
+
+        public List<string> GetAllText(List<string> urls)
+        {
+            var docs = new List<string>();
+            foreach (var url in urls)
+            {
+                var web = new HtmlWeb();
+                var doc = web.Load(url);
+
+                var docInnerHtmls = doc.DocumentNode.DescendantNodes().Select(s => s.InnerText);
+                var docText = string.Join(string.Empty, docInnerHtmls);
+
+                docs.Add(docText);
+            }
+
+            return docs;
+        }
+
+        public List<string> GetWPRMSites(List<string> urls)
+        {
+            var recipes = new List<string>();
+            foreach (var url in urls)
+            {
+                var web = new HtmlWeb();
+                var doc = web.Load(url);
+
+                foreach(var node in doc.DocumentNode.Descendants())
+                {
+                    var classList = node.Attributes["class"]?.Value;
+                    if (classList != null && classList.Contains("wprm-recipe-name"))
+                    {
+                        var htmlArr = node.ParentNode.OuterHtml.Split("\n");
+                        var html = string.Join(string.Empty, htmlArr);
+                        recipes.Add(html);
+                        break;
+                    }
+                }
+            }
+
+            return recipes;
         }
     }
 }
