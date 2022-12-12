@@ -77,8 +77,7 @@ namespace Recipe.Parser.Controllers
         {
             try
             {
-                var urls = snippets.Select(s => s.Link).ToList();
-                var ingredients = _ingredientsService.GetWPRMSites(urls);
+                var ingredients = _ingredientsService.GetWPRMSites(snippets);
                 return Ok(ingredients);
             }
             catch (Exception ex)

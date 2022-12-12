@@ -115,13 +115,13 @@ namespace Recipe.Parser.Services
             return docs;
         }
 
-        public List<string> GetWPRMSites(List<string> urls)
+        public List<WPRMResult> GetWPRMSites(List<WebSnippet> snippets)
         {
-            var recipes = new List<string>();
-            foreach (var url in urls)
+            var recipes = new List<WPRMResult>();
+            foreach (var snippet in snippets)
             {
                 var web = new HtmlWeb();
-                var doc = web.Load(url);
+                var doc = web.Load(snippet.Link);
 
                 foreach(var node in doc.DocumentNode.Descendants())
                 {
@@ -130,7 +130,12 @@ namespace Recipe.Parser.Services
                     {
                         var htmlArr = node.ParentNode.OuterHtml.Split("\n");
                         var html = string.Join(string.Empty, htmlArr);
-                        recipes.Add(html);
+                        var wprmResult = new WPRMResult()
+                        {
+                            Title = snippet.Title,
+                            Html = html
+                        };
+                        recipes.Add(wprmResult);
                         break;
                     }
                 }

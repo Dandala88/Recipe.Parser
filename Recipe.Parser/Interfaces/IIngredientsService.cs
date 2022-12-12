@@ -8,6 +8,6 @@ namespace Recipe.Parser.Interfaces
         public List<Models.Recipe> ParseIngredients(List<string> urls);
         public List<Models.Recipe> ParseIngredientsNLP(List<string> urls);
         public List<string> GetAllText(List<string> urls);
-        public List<string> GetWPRMSites(List<string> urls);
+        public List<WPRMResult> GetWPRMSites(List<WebSnippet> snippets);
     }
 }
