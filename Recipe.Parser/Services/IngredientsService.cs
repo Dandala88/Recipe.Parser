@@ -72,15 +72,22 @@ namespace Recipe.Parser.Services
 
 
                 //Sentences
-                using var modelIn = new java.io.FileInputStream(GetModel("en-sent.bin"));
+                //using var modelIn = new java.io.FileInputStream(GetModel("en-sent.bin"));
 
-                var model = new opennlp.tools.sentdetect.SentenceModel(modelIn);
-                var sentenceDetector = new opennlp.tools.sentdetect.SentenceDetectorME(model);
+                //var model = new opennlp.tools.sentdetect.SentenceModel(modelIn);
+                //var sentenceDetector = new opennlp.tools.sentdetect.SentenceDetectorME(model);
 
-                var sentences = sentenceDetector.sentDetect(docText);
+                //var sentences = sentenceDetector.sentDetect(docText);
 
-                foreach (var sentence in sentences)
-                    recipe.Ingredients.Add(sentence);
+                //foreach (var sentence in sentences)
+                //    recipe.Ingredients.Add(sentence);
+
+                using var modelIn = new java.io.FileInputStream(GetModel("en-ner-ingredient.bin"));
+
+                var model = new opennlp.tools.namefind.TokenNameFinderModel(modelIn);
+                var nameFinder = new opennlp.tools.namefind.NameFinderME(model);
+                var nameSpans = nameFinder.find(docInnerHtmls.ToArray());
+                recipe.Ingredients = nameSpans.Select(x => x.toString()).ToList();
 
                 recipes.Add(recipe);
             }
